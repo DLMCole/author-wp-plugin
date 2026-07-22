@@ -11,6 +11,8 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 class ABX_Frontend {
 
+	private static $rendering_box = false;
+
 	public function __construct() {
 		add_action( 'wp_head', array( $this, 'output_schema' ), 5 );
 		add_filter( 'the_content', array( $this, 'inject_box' ) );
@@ -41,11 +43,14 @@ class ABX_Frontend {
 	}
 
 	public function inject_box( $content ) {
-		if ( ! is_singular() || ! in_the_loop() || ! is_main_query() ) {
+		if ( self::$rendering_box || ! is_singular() || ! in_the_loop() || ! is_main_query() ) {
 			return $content;
 		}
 
-		$box = self::get_box_html( get_the_ID() );
+		self::$rendering_box = true;
+		$box                 = self::get_box_html( get_the_ID() );
+		self::$rendering_box = false;
+
 		if ( ! $box ) {
 			return $content;
 		}
@@ -88,8 +93,6 @@ class ABX_Frontend {
 			return '';
 		}
 
-		$short_bio = get_post_meta( $author_id, '_abx_short_bio', true );
-
 		$data = array(
 			'author_id'  => $author_id,
 			'name'       => get_the_title( $author_id ),
@@ -97,7 +100,7 @@ class ABX_Frontend {
 			'org_name'   => get_post_meta( $author_id, '_abx_org_name', true ),
 			'permalink'  => get_permalink( $author_id ),
 			'image_url'  => has_post_thumbnail( $author_id ) ? get_the_post_thumbnail_url( $author_id, 'thumbnail' ) : '',
-			'bio'        => $short_bio ? $short_bio : get_the_excerpt( $author_id ),
+			'bio'        => ABX_Schema::get_short_description( $author_id ),
 			'sameas'     => array_values( array_filter( array_map( 'trim', preg_split( '/\r?\n/', (string) get_post_meta( $author_id, '_abx_sameas', true ) ) ) ) ),
 			'website'    => get_post_meta( $author_id, '_abx_url', true ),
 		);

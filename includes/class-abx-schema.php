@@ -198,20 +198,29 @@ class ABX_Schema {
 		return array_values( array_filter( array_map( 'trim', preg_split( '/\r?\n/', (string) $raw ) ) ) );
 	}
 
-	private static function short_description( $author_id ) {
+	/**
+	 * Deliberately avoids get_the_excerpt(): when a post has no manual
+	 * excerpt, WordPress builds one by re-running the `the_content`
+	 * filter (see wp_trim_excerpt()) — and this plugin hooks that same
+	 * filter to inject the author box, which would recurse infinitely.
+	 */
+	public static function get_short_description( $author_id ) {
 		$short = get_post_meta( $author_id, '_abx_short_bio', true );
 		if ( $short ) {
 			return $short;
 		}
 
-		$excerpt = get_the_excerpt( $author_id );
-		if ( $excerpt ) {
-			return $excerpt;
+		$post = get_post( $author_id );
+		if ( ! $post ) {
+			return '';
 		}
 
-		$post = get_post( $author_id );
-		if ( $post && $post->post_content ) {
-			return wp_trim_words( wp_strip_all_tags( $post->post_content ), 55 );
+		if ( $post->post_excerpt ) {
+			return wp_strip_all_tags( $post->post_excerpt );
+		}
+
+		if ( $post->post_content ) {
+			return wp_trim_words( wp_strip_all_tags( strip_shortcodes( $post->post_content ) ), 55 );
 		}
 
 		return '';
@@ -243,7 +252,7 @@ class ABX_Schema {
 			'familyName'       => $get( '_abx_last_name' ),
 			'honorificSuffix'  => $get( '_abx_honorific_suffix' ),
 			'jobTitle'         => $get( '_abx_job_title' ),
-			'description'      => self::short_description( $author_id ),
+			'description'      => self::get_short_description( $author_id ),
 			'email'            => $get( '_abx_email' ),
 			'telephone'        => $get( '_abx_phone' ),
 			'gender'           => $get( '_abx_gender' ),

@@ -3,7 +3,7 @@
  * Plugin Name:       Authorship Box
  * Plugin URI:        https://github.com/DLMCole/author-wp-plugin
  * Description:       Create reusable Author profiles with full schema.org markup, and attach them to posts, pages, and any custom post type. Toggle the author box on globally by content type, with a per-item override.
- * Version:           1.0.1
+ * Version:           1.0.2
  * Requires at least: 5.9
  * Requires PHP:      7.4
  * Author:            Cole
@@ -17,7 +17,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'ABX_VERSION', '1.0.1' );
+define( 'ABX_VERSION', '1.0.2' );
 define( 'ABX_PLUGIN_FILE', __FILE__ );
 define( 'ABX_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 define( 'ABX_PLUGIN_URL', plugin_dir_url( __FILE__ ) );

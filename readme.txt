@@ -4,7 +4,7 @@ Tags: author, schema, structured data, json-ld, seo
 Requires at least: 5.9
 Tested up to: 6.6
 Requires PHP: 7.4
-Stable tag: 1.0.1
+Stable tag: 1.0.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -45,6 +45,9 @@ No. It's independent, so you can assign a display "Author" persona (e.g. a guest
 Yes, under Authors → Settings → Display Options, or place it manually in a template with `abx_the_author_box()`.
 
 == Changelog ==
+
+= 1.0.2 =
+* Fix 502/fatal on pages showing the author box: when an assigned author had no "Short Bio" and no manual excerpt, the fallback to get_the_excerpt() re-triggered the_content (which this plugin hooks to render the box), causing infinite recursion. The bio fallback no longer touches the_content, and the_content hook now guards against re-entry as a second line of defense.
 
 = 1.0.1 =
 * Fix fatal error on the Plugins screen: the bundled Plugin Update Checker library was missing its vendored Parsedown/readme-parser dependency (used to render GitHub release changelogs).
