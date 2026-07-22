@@ -31,7 +31,7 @@ $get_label = function ( $url ) use ( $icon_labels ) {
 	return $host ? $host : $url;
 };
 ?>
-<div class="abx-author-box" id="abx-author-<?php echo esc_attr( $data['author_id'] ); ?>">
+<div class="<?php echo esc_attr( $data['wrapper_class'] ); ?>" id="abx-author-<?php echo esc_attr( $data['author_id'] ); ?>" style="<?php echo esc_attr( $data['wrapper_style'] ); ?>">
 	<?php if ( $data['image_url'] ) : ?>
 		<div class="abx-author-box__avatar">
 			<a href="<?php echo esc_url( $data['permalink'] ); ?>">

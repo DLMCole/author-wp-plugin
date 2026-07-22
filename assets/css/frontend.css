@@ -1,4 +1,7 @@
 .abx-author-box {
+	--abx-accent: #2271b1;
+	--abx-bg: #fafafa;
+	--abx-avatar-size: 72px;
 	display: flex;
 	gap: 16px;
 	align-items: flex-start;
@@ -6,15 +9,41 @@
 	padding: 20px;
 	border: 1px solid #e0e0e0;
 	border-radius: 8px;
-	background: #fafafa;
+	background: var( --abx-bg );
+}
+
+.abx-author-box--bordered {
+	background: transparent;
+	border: 2px solid var( --abx-accent );
+}
+
+.abx-author-box--minimal {
+	background: transparent;
+	border: none;
+	border-top: 1px solid #e0e0e0;
+	border-radius: 0;
+	padding: 20px 0 0;
+}
+
+.abx-author-box--avatar-small {
+	--abx-avatar-size: 48px;
+}
+
+.abx-author-box--avatar-large {
+	--abx-avatar-size: 96px;
 }
 
 .abx-author-box__avatar img {
-	min-width: 72px;
-	height: 72px;
+	min-width: var( --abx-avatar-size );
+	width: var( --abx-avatar-size );
+	height: var( --abx-avatar-size );
 	border-radius: 50%;
 	object-fit: cover;
 	display: block;
+}
+
+.abx-author-box--square-avatar .abx-author-box__avatar img {
+	border-radius: 8px;
 }
 
 .abx-author-box__label {
@@ -31,6 +60,7 @@
 }
 
 .abx-author-box__name a {
+	color: var( --abx-accent );
 	text-decoration: none;
 }
 
@@ -49,6 +79,7 @@
 .abx-author-box__links a {
 	margin-right: 12px;
 	font-size: 13px;
+	color: var( --abx-accent );
 }
 
 .abx-author-profile__header {

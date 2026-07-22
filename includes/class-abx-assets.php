@@ -27,8 +27,15 @@ class ABX_Assets {
 			return;
 		}
 
+		$script_deps = array( 'jquery' );
+
+		if ( $is_settings_screen ) {
+			wp_enqueue_style( 'wp-color-picker' );
+			$script_deps[] = 'wp-color-picker';
+		}
+
 		wp_enqueue_style( 'abx-admin', ABX_PLUGIN_URL . 'assets/css/admin.css', array(), ABX_VERSION );
-		wp_enqueue_script( 'abx-admin', ABX_PLUGIN_URL . 'assets/js/admin.js', array(), ABX_VERSION, true );
+		wp_enqueue_script( 'abx-admin', ABX_PLUGIN_URL . 'assets/js/admin.js', $script_deps, ABX_VERSION, true );
 	}
 
 	public function frontend_assets() {

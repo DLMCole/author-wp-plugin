@@ -21,4 +21,8 @@ document.addEventListener( 'DOMContentLoaded', function () {
 			setAll( false );
 		} );
 	}
+
+	if ( window.jQuery && jQuery.fn.wpColorPicker ) {
+		jQuery( '.abx-color-field' ).wpColorPicker();
+	}
 } );

@@ -51,6 +51,7 @@ class ABX_Settings {
 					'post_types'    => array( 'post' ),
 					'output_schema' => 1,
 					'box_position'  => 'after_content',
+					'appearance'    => ABX_Resolver::default_appearance(),
 				),
 			)
 		);
@@ -64,6 +65,22 @@ class ABX_Settings {
 			'post_types'    => array_values( array_intersect( $valid_post_types, $post_types ) ),
 			'output_schema' => empty( $input['output_schema'] ) ? 0 : 1,
 			'box_position'  => in_array( $input['box_position'] ?? '', array( 'before_content', 'after_content' ), true ) ? $input['box_position'] : 'after_content',
+			'appearance'    => $this->sanitize_appearance( isset( $input['appearance'] ) && is_array( $input['appearance'] ) ? $input['appearance'] : array() ),
+		);
+	}
+
+	private function sanitize_appearance( $input ) {
+		$defaults = ABX_Resolver::default_appearance();
+
+		$accent_color     = ! empty( $input['accent_color'] ) ? sanitize_hex_color( $input['accent_color'] ) : '';
+		$background_color = ! empty( $input['background_color'] ) ? sanitize_hex_color( $input['background_color'] ) : '';
+
+		return array(
+			'layout'           => in_array( $input['layout'] ?? '', array( 'boxed', 'minimal', 'bordered' ), true ) ? $input['layout'] : $defaults['layout'],
+			'accent_color'     => $accent_color ? $accent_color : $defaults['accent_color'],
+			'background_color' => $background_color ? $background_color : $defaults['background_color'],
+			'avatar_shape'     => in_array( $input['avatar_shape'] ?? '', array( 'circle', 'square' ), true ) ? $input['avatar_shape'] : $defaults['avatar_shape'],
+			'avatar_size'      => in_array( $input['avatar_size'] ?? '', array( 'small', 'medium', 'large' ), true ) ? $input['avatar_size'] : $defaults['avatar_size'],
 		);
 	}
 
@@ -129,6 +146,55 @@ class ABX_Settings {
 								<input type="checkbox" name="<?php echo esc_attr( ABX_SETTINGS_OPTION ); ?>[output_schema]" value="1" <?php checked( ! empty( $settings['output_schema'] ) ); ?> />
 								<?php esc_html_e( 'Output schema.org JSON-LD markup for assigned authors', 'authorship-box' ); ?>
 							</label>
+						</td>
+					</tr>
+					</tbody>
+				</table>
+
+				<h2><?php esc_html_e( 'Appearance', 'authorship-box' ); ?></h2>
+				<table class="form-table" role="presentation">
+					<tbody>
+					<tr>
+						<th scope="row"><?php esc_html_e( 'Layout Style', 'authorship-box' ); ?></th>
+						<td>
+							<select name="<?php echo esc_attr( ABX_SETTINGS_OPTION ); ?>[appearance][layout]">
+								<option value="boxed" <?php selected( $settings['appearance']['layout'], 'boxed' ); ?>><?php esc_html_e( 'Boxed (background + border)', 'authorship-box' ); ?></option>
+								<option value="bordered" <?php selected( $settings['appearance']['layout'], 'bordered' ); ?>><?php esc_html_e( 'Bordered (outline only)', 'authorship-box' ); ?></option>
+								<option value="minimal" <?php selected( $settings['appearance']['layout'], 'minimal' ); ?>><?php esc_html_e( 'Minimal (top divider only)', 'authorship-box' ); ?></option>
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<th scope="row"><?php esc_html_e( 'Accent Color', 'authorship-box' ); ?></th>
+						<td>
+							<input type="text" class="abx-color-field" name="<?php echo esc_attr( ABX_SETTINGS_OPTION ); ?>[appearance][accent_color]" value="<?php echo esc_attr( $settings['appearance']['accent_color'] ); ?>" data-default-color="<?php echo esc_attr( ABX_Resolver::default_appearance()['accent_color'] ); ?>" />
+							<p class="description"><?php esc_html_e( 'Used for the author name link, the bordered layout\'s outline, and social links.', 'authorship-box' ); ?></p>
+						</td>
+					</tr>
+					<tr>
+						<th scope="row"><?php esc_html_e( 'Background Color', 'authorship-box' ); ?></th>
+						<td>
+							<input type="text" class="abx-color-field" name="<?php echo esc_attr( ABX_SETTINGS_OPTION ); ?>[appearance][background_color]" value="<?php echo esc_attr( $settings['appearance']['background_color'] ); ?>" data-default-color="<?php echo esc_attr( ABX_Resolver::default_appearance()['background_color'] ); ?>" />
+							<p class="description"><?php esc_html_e( 'Only visible with the Boxed layout style.', 'authorship-box' ); ?></p>
+						</td>
+					</tr>
+					<tr>
+						<th scope="row"><?php esc_html_e( 'Avatar Shape', 'authorship-box' ); ?></th>
+						<td>
+							<select name="<?php echo esc_attr( ABX_SETTINGS_OPTION ); ?>[appearance][avatar_shape]">
+								<option value="circle" <?php selected( $settings['appearance']['avatar_shape'], 'circle' ); ?>><?php esc_html_e( 'Circle', 'authorship-box' ); ?></option>
+								<option value="square" <?php selected( $settings['appearance']['avatar_shape'], 'square' ); ?>><?php esc_html_e( 'Rounded square', 'authorship-box' ); ?></option>
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<th scope="row"><?php esc_html_e( 'Avatar Size', 'authorship-box' ); ?></th>
+						<td>
+							<select name="<?php echo esc_attr( ABX_SETTINGS_OPTION ); ?>[appearance][avatar_size]">
+								<option value="small" <?php selected( $settings['appearance']['avatar_size'], 'small' ); ?>><?php esc_html_e( 'Small', 'authorship-box' ); ?></option>
+								<option value="medium" <?php selected( $settings['appearance']['avatar_size'], 'medium' ); ?>><?php esc_html_e( 'Medium', 'authorship-box' ); ?></option>
+								<option value="large" <?php selected( $settings['appearance']['avatar_size'], 'large' ); ?>><?php esc_html_e( 'Large', 'authorship-box' ); ?></option>
+							</select>
 						</td>
 					</tr>
 					</tbody>

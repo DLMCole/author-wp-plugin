@@ -21,14 +21,32 @@ class ABX_Resolver {
 				'post_types'    => array( 'post' ),
 				'output_schema' => 1,
 				'box_position'  => 'after_content',
+				'appearance'    => self::default_appearance(),
 			);
 			self::$settings = wp_parse_args( get_option( ABX_SETTINGS_OPTION, array() ), $defaults );
 			if ( ! is_array( self::$settings['post_types'] ) ) {
 				self::$settings['post_types'] = array();
 			}
+			if ( ! is_array( self::$settings['appearance'] ) ) {
+				self::$settings['appearance'] = self::default_appearance();
+			}
 		}
 
 		return self::$settings;
+	}
+
+	public static function default_appearance() {
+		return array(
+			'layout'           => 'boxed',
+			'accent_color'     => '#2271b1',
+			'background_color' => '#fafafa',
+			'avatar_shape'     => 'circle',
+			'avatar_size'      => 'medium',
+		);
+	}
+
+	public static function get_appearance() {
+		return self::get_settings()['appearance'];
 	}
 
 	public static function is_post_type_globally_enabled( $post_type ) {

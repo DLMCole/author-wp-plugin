@@ -93,16 +93,28 @@ class ABX_Frontend {
 			return '';
 		}
 
+		$appearance = ABX_Resolver::get_appearance();
+
+		$wrapper_classes = array( 'abx-author-box', 'abx-author-box--' . $appearance['layout'] );
+		if ( 'square' === $appearance['avatar_shape'] ) {
+			$wrapper_classes[] = 'abx-author-box--square-avatar';
+		}
+		if ( in_array( $appearance['avatar_size'], array( 'small', 'large' ), true ) ) {
+			$wrapper_classes[] = 'abx-author-box--avatar-' . $appearance['avatar_size'];
+		}
+
 		$data = array(
-			'author_id'  => $author_id,
-			'name'       => get_the_title( $author_id ),
-			'job_title'  => get_post_meta( $author_id, '_abx_job_title', true ),
-			'org_name'   => get_post_meta( $author_id, '_abx_org_name', true ),
-			'permalink'  => get_permalink( $author_id ),
-			'image_url'  => has_post_thumbnail( $author_id ) ? get_the_post_thumbnail_url( $author_id, 'thumbnail' ) : '',
-			'bio'        => ABX_Schema::get_short_description( $author_id ),
-			'sameas'     => array_values( array_filter( array_map( 'trim', preg_split( '/\r?\n/', (string) get_post_meta( $author_id, '_abx_sameas', true ) ) ) ) ),
-			'website'    => get_post_meta( $author_id, '_abx_url', true ),
+			'author_id'      => $author_id,
+			'name'           => get_the_title( $author_id ),
+			'job_title'      => get_post_meta( $author_id, '_abx_job_title', true ),
+			'org_name'       => get_post_meta( $author_id, '_abx_org_name', true ),
+			'permalink'      => get_permalink( $author_id ),
+			'image_url'      => has_post_thumbnail( $author_id ) ? get_the_post_thumbnail_url( $author_id, 'thumbnail' ) : '',
+			'bio'            => ABX_Schema::get_short_description( $author_id ),
+			'sameas'         => array_values( array_filter( array_map( 'trim', preg_split( '/\r?\n/', (string) get_post_meta( $author_id, '_abx_sameas', true ) ) ) ) ),
+			'website'        => get_post_meta( $author_id, '_abx_url', true ),
+			'wrapper_class'  => implode( ' ', $wrapper_classes ),
+			'wrapper_style'  => sprintf( '--abx-accent:%s;--abx-bg:%s;', $appearance['accent_color'], $appearance['background_color'] ),
 		);
 
 		ob_start();
