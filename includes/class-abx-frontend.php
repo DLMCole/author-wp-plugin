@@ -111,10 +111,3 @@ class ABX_Frontend {
 		return ob_get_clean();
 	}
 }
-
-/**
- * Template tag for theme developers.
- */
-function abx_the_author_box( $post_id = null ) {
-	echo ABX_Frontend::get_box_html( $post_id ? $post_id : get_the_ID(), true ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-}

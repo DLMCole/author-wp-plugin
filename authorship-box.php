@@ -31,6 +31,7 @@ require_once ABX_PLUGIN_DIR . 'includes/class-abx-settings.php';
 require_once ABX_PLUGIN_DIR . 'includes/class-abx-resolver.php';
 require_once ABX_PLUGIN_DIR . 'includes/class-abx-post-metabox.php';
 require_once ABX_PLUGIN_DIR . 'includes/class-abx-frontend.php';
+require_once ABX_PLUGIN_DIR . 'includes/template-tags.php';
 require_once ABX_PLUGIN_DIR . 'includes/class-abx-single-template.php';
 require_once ABX_PLUGIN_DIR . 'includes/class-abx-assets.php';
 require_once ABX_PLUGIN_DIR . 'includes/class-abx-updater.php';
