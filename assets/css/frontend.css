@@ -1,0 +1,73 @@
+.abx-author-box {
+	display: flex;
+	gap: 16px;
+	align-items: flex-start;
+	margin: 32px 0;
+	padding: 20px;
+	border: 1px solid #e0e0e0;
+	border-radius: 8px;
+	background: #fafafa;
+}
+
+.abx-author-box__avatar img {
+	width: 72px;
+	height: 72px;
+	border-radius: 50%;
+	object-fit: cover;
+	display: block;
+}
+
+.abx-author-box__label {
+	margin: 0 0 2px;
+	font-size: 12px;
+	text-transform: uppercase;
+	letter-spacing: 0.05em;
+	color: #757575;
+}
+
+.abx-author-box__name {
+	margin: 0 0 4px;
+	font-size: 18px;
+}
+
+.abx-author-box__name a {
+	text-decoration: none;
+}
+
+.abx-author-box__title {
+	margin: 0 0 8px;
+	font-size: 13px;
+	color: #555;
+}
+
+.abx-author-box__bio {
+	margin: 0 0 10px;
+	font-size: 14px;
+	line-height: 1.5;
+}
+
+.abx-author-box__links a {
+	margin-right: 12px;
+	font-size: 13px;
+}
+
+.abx-author-profile__header {
+	display: flex;
+	gap: 20px;
+	align-items: center;
+	margin-bottom: 24px;
+}
+
+.abx-author-profile__avatar img {
+	border-radius: 50%;
+	object-fit: cover;
+}
+
+.abx-author-profile__links a {
+	margin-right: 14px;
+}
+
+.abx-author-profile__content ul {
+	list-style: disc;
+	padding-left: 20px;
+}

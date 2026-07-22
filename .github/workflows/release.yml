@@ -1,0 +1,43 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Determine slug/version
+        id: vars
+        run: |
+          echo "slug=authorship-box" >> "$GITHUB_OUTPUT"
+          echo "version=${GITHUB_REF_NAME#v}" >> "$GITHUB_OUTPUT"
+
+      - name: Verify plugin version header matches the tag
+        run: |
+          header_version=$(grep -oP '^\s*\*\s*Version:\s*\K\S+' authorship-box.php)
+          if [ "$header_version" != "${{ steps.vars.outputs.version }}" ]; then
+            echo "::error::Tag v${{ steps.vars.outputs.version }} does not match Version header ($header_version) in authorship-box.php"
+            exit 1
+          fi
+
+      - name: Build clean archive (honors .gitattributes export-ignore)
+        run: |
+          mkdir -p "build/${{ steps.vars.outputs.slug }}"
+          git archive HEAD | tar -x -C "build/${{ steps.vars.outputs.slug }}"
+          cd build
+          zip -r "../${{ steps.vars.outputs.slug }}.zip" "${{ steps.vars.outputs.slug }}"
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: ${{ steps.vars.outputs.slug }}.zip
+          generate_release_notes: true

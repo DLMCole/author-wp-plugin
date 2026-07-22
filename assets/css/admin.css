@@ -1,0 +1,22 @@
+.abx-field-group {
+	margin-bottom: 24px;
+}
+
+.abx-field-group h3 {
+	margin-bottom: 4px;
+	padding-bottom: 8px;
+	border-bottom: 1px solid #dcdcde;
+}
+
+.abx-form-table th {
+	width: 220px;
+}
+
+.abx-settings-wrap .form-table th {
+	width: 320px;
+}
+
+#abx-author-preview textarea {
+	background: #1e1e1e;
+	color: #9cdcfe;
+}

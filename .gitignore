@@ -1,0 +1,15 @@
+# Composer (dev-only tooling: phpcs/wpcs). Runtime deps (Plugin Update
+# Checker) live in includes/lib and ARE committed, since sites installing
+# this plugin from a release zip won't run `composer install`.
+/vendor/
+composer.lock
+
+# Build output
+/build/
+*.zip
+
+# OS / editor cruft
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
