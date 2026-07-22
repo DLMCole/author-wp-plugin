@@ -88,6 +88,8 @@ class ABX_Frontend {
 			return '';
 		}
 
+		$short_bio = get_post_meta( $author_id, '_abx_short_bio', true );
+
 		$data = array(
 			'author_id'  => $author_id,
 			'name'       => get_the_title( $author_id ),
@@ -95,7 +97,7 @@ class ABX_Frontend {
 			'org_name'   => get_post_meta( $author_id, '_abx_org_name', true ),
 			'permalink'  => get_permalink( $author_id ),
 			'image_url'  => has_post_thumbnail( $author_id ) ? get_the_post_thumbnail_url( $author_id, 'thumbnail' ) : '',
-			'bio'        => get_post_meta( $author_id, '_abx_short_bio', true ) ?: get_the_excerpt( $author_id ),
+			'bio'        => $short_bio ? $short_bio : get_the_excerpt( $author_id ),
 			'sameas'     => array_values( array_filter( array_map( 'trim', preg_split( '/\r?\n/', (string) get_post_meta( $author_id, '_abx_sameas', true ) ) ) ) ),
 			'website'    => get_post_meta( $author_id, '_abx_url', true ),
 		);
@@ -114,5 +116,5 @@ class ABX_Frontend {
  * Template tag for theme developers.
  */
 function abx_the_author_box( $post_id = null ) {
-	echo ABX_Frontend::get_box_html( $post_id ?: get_the_ID(), true ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+	echo ABX_Frontend::get_box_html( $post_id ? $post_id : get_the_ID(), true ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 }

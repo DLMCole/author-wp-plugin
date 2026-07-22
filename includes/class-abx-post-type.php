@@ -38,7 +38,10 @@ class ABX_Post_Type {
 				'labels'        => $labels,
 				'public'        => true,
 				'has_archive'   => 'authors',
-				'rewrite'       => array( 'slug' => 'author-profile', 'with_front' => false ),
+				'rewrite'       => array(
+					'slug'       => 'author-profile',
+					'with_front' => false,
+				),
 				'menu_icon'     => 'dashicons-businessperson',
 				'menu_position' => 26,
 				'supports'      => array( 'title', 'editor', 'excerpt', 'thumbnail', 'revisions' ),
@@ -68,7 +71,8 @@ class ABX_Post_Type {
 				echo '&#8212;';
 			}
 		} elseif ( 'abx_job_title' === $column ) {
-			echo esc_html( get_post_meta( $post_id, '_abx_job_title', true ) ?: '—' );
+			$job_title = get_post_meta( $post_id, '_abx_job_title', true );
+			echo esc_html( $job_title ? $job_title : '—' );
 		}
 	}
 }

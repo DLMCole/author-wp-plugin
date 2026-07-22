@@ -28,7 +28,7 @@ $get_label = function ( $url ) use ( $icon_labels ) {
 			return $label;
 		}
 	}
-	return $host ?: $url;
+	return $host ? $host : $url;
 };
 ?>
 <div class="abx-author-box" id="abx-author-<?php echo esc_attr( $data['author_id'] ); ?>">

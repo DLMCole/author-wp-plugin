@@ -276,7 +276,10 @@ class ABX_Schema {
 
 		$alumni = array_map(
 			function ( $item ) {
-				$entry = array( '@type' => 'EducationalOrganization', 'name' => $item['name'] );
+				$entry = array(
+					'@type' => 'EducationalOrganization',
+					'name'  => $item['name'],
+				);
 				if ( ! empty( $item['url'] ) ) {
 					$entry['url'] = $item['url'];
 				}
@@ -290,7 +293,10 @@ class ABX_Schema {
 
 		$member_of = array_map(
 			function ( $item ) {
-				$entry = array( '@type' => 'Organization', 'name' => $item['name'] );
+				$entry = array(
+					'@type' => 'Organization',
+					'name'  => $item['name'],
+				);
 				if ( ! empty( $item['url'] ) ) {
 					$entry['url'] = $item['url'];
 				}

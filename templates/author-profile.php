@@ -62,8 +62,12 @@ while ( have_posts() ) :
 
 			<?php if ( $website || $email || $sameas ) : ?>
 				<p class="abx-author-profile__links">
-					<?php if ( $website ) : ?><a href="<?php echo esc_url( $website ); ?>" rel="me" target="_blank"><?php esc_html_e( 'Website', 'authorship-box' ); ?></a><?php endif; ?>
-					<?php if ( $email ) : ?><a href="mailto:<?php echo esc_attr( antispambot( $email ) ); ?>"><?php esc_html_e( 'Email', 'authorship-box' ); ?></a><?php endif; ?>
+					<?php if ( $website ) : ?>
+						<a href="<?php echo esc_url( $website ); ?>" rel="me" target="_blank"><?php esc_html_e( 'Website', 'authorship-box' ); ?></a>
+					<?php endif; ?>
+					<?php if ( $email ) : ?>
+						<a href="mailto:<?php echo esc_attr( antispambot( $email ) ); ?>"><?php esc_html_e( 'Email', 'authorship-box' ); ?></a>
+					<?php endif; ?>
 					<?php foreach ( $sameas as $url ) : ?>
 						<a href="<?php echo esc_url( $url ); ?>" rel="me" target="_blank"><?php echo esc_html( wp_parse_url( $url, PHP_URL_HOST ) ); ?></a>
 					<?php endforeach; ?>

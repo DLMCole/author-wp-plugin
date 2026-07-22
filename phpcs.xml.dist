@@ -14,11 +14,23 @@
 	<config name="testVersion" value="7.4-"/>
 	<rule ref="PHPCompatibilityWP"/>
 
-	<rule ref="WordPress"/>
+	<!--
+	WordPress-Core + WordPress-Extra cover naming conventions, security
+	(escaping/sanitization/nonces), and formatting. WordPress-Docs (full
+	"WordPress" ruleset) is deliberately left out — it requires a full
+	docblock on every method, which is more noise than signal here.
+	-->
+	<rule ref="WordPress-Core"/>
+	<rule ref="WordPress-Extra"/>
 
 	<rule ref="WordPress.WP.I18n">
 		<properties>
 			<property name="text_domain" type="array" value="authorship-box"/>
 		</properties>
+	</rule>
+
+	<!-- The bootstrap file legitimately bundles a small loader class; it doesn't need a matching class-*.php file name. -->
+	<rule ref="WordPress.Files.FileName">
+		<exclude-pattern>*/authorship-box.php</exclude-pattern>
 	</rule>
 </ruleset>
