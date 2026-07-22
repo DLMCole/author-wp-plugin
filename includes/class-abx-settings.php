@@ -64,7 +64,7 @@ class ABX_Settings {
 		return array(
 			'post_types'    => array_values( array_intersect( $valid_post_types, $post_types ) ),
 			'output_schema' => empty( $input['output_schema'] ) ? 0 : 1,
-			'box_position'  => in_array( $input['box_position'] ?? '', array( 'before_content', 'after_content' ), true ) ? $input['box_position'] : 'after_content',
+			'box_position'  => in_array( $input['box_position'] ?? '', ABX_Resolver::POSITIONS, true ) ? $input['box_position'] : 'after_content',
 			'appearance'    => $this->sanitize_appearance( isset( $input['appearance'] ) && is_array( $input['appearance'] ) ? $input['appearance'] : array() ),
 		);
 	}
@@ -135,8 +135,9 @@ class ABX_Settings {
 							<select name="<?php echo esc_attr( ABX_SETTINGS_OPTION ); ?>[box_position]">
 								<option value="after_content" <?php selected( $settings['box_position'], 'after_content' ); ?>><?php esc_html_e( 'After the content', 'authorship-box' ); ?></option>
 								<option value="before_content" <?php selected( $settings['box_position'], 'before_content' ); ?>><?php esc_html_e( 'Before the content', 'authorship-box' ); ?></option>
+								<option value="shortcode_only" <?php selected( $settings['box_position'], 'shortcode_only' ); ?>><?php esc_html_e( 'Shortcode only (no automatic placement)', 'authorship-box' ); ?></option>
 							</select>
-							<p class="description"><?php esc_html_e( 'You can also place the box manually in a template with abx_the_author_box() or the [authorship_box] shortcode.', 'authorship-box' ); ?></p>
+							<p class="description"><?php esc_html_e( 'With "Shortcode only", the box never appears automatically — add it wherever you want with the [authorship_box] shortcode or abx_the_author_box() in a template. Each item can override this placement individually.', 'authorship-box' ); ?></p>
 						</td>
 					</tr>
 					<tr>

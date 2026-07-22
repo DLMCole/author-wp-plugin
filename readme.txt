@@ -4,7 +4,7 @@ Tags: author, schema, structured data, json-ld, seo
 Requires at least: 5.9
 Tested up to: 6.6
 Requires PHP: 7.4
-Stable tag: 1.1.0
+Stable tag: 1.2.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -42,9 +42,12 @@ No. It's independent, so you can assign a display "Author" persona (e.g. a guest
 
 = Can I control where the box appears in the content? =
 
-Yes, under Authors → Settings → Display Options, or place it manually in a template with `abx_the_author_box()`.
+Yes. Under Authors → Settings → Display Options, choose Before the content, After the content, or Shortcode only (no automatic placement — you add `[authorship_box]` or `abx_the_author_box()` wherever you want). Each individual post/page can override this placement independently of the global setting.
 
 == Changelog ==
+
+= 1.2.0 =
+* Add "Shortcode only" as a Box Placement option, both globally (Authors → Settings → Display Options) and per item — when set, the box never auto-appears and only shows via the [authorship_box] shortcode or abx_the_author_box().
 
 = 1.1.0 =
 * Add Appearance settings (Authors → Settings): layout style (boxed/bordered/minimal), accent color, background color, avatar shape, and avatar size for the front-end author box.

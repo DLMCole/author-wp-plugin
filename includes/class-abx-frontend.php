@@ -47,16 +47,21 @@ class ABX_Frontend {
 			return $content;
 		}
 
+		$post_id  = get_the_ID();
+		$position = ABX_Resolver::get_effective_position( $post_id );
+		if ( 'shortcode_only' === $position ) {
+			return $content;
+		}
+
 		self::$rendering_box = true;
-		$box                 = self::get_box_html( get_the_ID() );
+		$box                 = self::get_box_html( $post_id );
 		self::$rendering_box = false;
 
 		if ( ! $box ) {
 			return $content;
 		}
 
-		$settings = ABX_Resolver::get_settings();
-		return 'before_content' === $settings['box_position'] ? $box . $content : $content . $box;
+		return 'before_content' === $position ? $box . $content : $content . $box;
 	}
 
 	public function shortcode( $atts ) {

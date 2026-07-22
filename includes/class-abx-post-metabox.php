@@ -38,9 +38,17 @@ class ABX_Post_Metabox {
 	public function render( $post ) {
 		wp_nonce_field( self::NONCE_ACTION, self::NONCE_NAME );
 
-		$assigned_author = ABX_Resolver::get_assigned_author_id( $post->ID );
-		$override        = ABX_Resolver::get_override( $post->ID );
-		$global_on       = ABX_Resolver::is_post_type_globally_enabled( $post->post_type );
+		$assigned_author  = ABX_Resolver::get_assigned_author_id( $post->ID );
+		$override         = ABX_Resolver::get_override( $post->ID );
+		$global_on        = ABX_Resolver::is_post_type_globally_enabled( $post->post_type );
+		$position_override = ABX_Resolver::get_position_override( $post->ID );
+		$global_position  = ABX_Resolver::get_settings()['box_position'];
+
+		$position_labels = array(
+			'before_content' => __( 'before the content', 'authorship-box' ),
+			'after_content'  => __( 'after the content', 'authorship-box' ),
+			'shortcode_only' => __( 'shortcode only', 'authorship-box' ),
+		);
 
 		$authors = get_posts(
 			array(
@@ -95,6 +103,27 @@ class ABX_Post_Metabox {
 				<?php esc_html_e( 'Overrides the global setting under Authors → Settings just for this item.', 'authorship-box' ); ?>
 			</span>
 		</p>
+
+		<p>
+			<label for="abx_position_override"><strong><?php esc_html_e( 'Box Placement', 'authorship-box' ); ?></strong></label><br />
+			<select name="abx_position_override" id="abx_position_override" class="widefat">
+				<option value="default" <?php selected( $position_override, 'default' ); ?>>
+					<?php
+					printf(
+						/* translators: %s: current global placement, e.g. "after the content" */
+						esc_html__( 'Default (currently %s site-wide)', 'authorship-box' ),
+						esc_html( $position_labels[ $global_position ] ?? $global_position )
+					);
+					?>
+				</option>
+				<option value="before_content" <?php selected( $position_override, 'before_content' ); ?>><?php esc_html_e( 'Before the content', 'authorship-box' ); ?></option>
+				<option value="after_content" <?php selected( $position_override, 'after_content' ); ?>><?php esc_html_e( 'After the content', 'authorship-box' ); ?></option>
+				<option value="shortcode_only" <?php selected( $position_override, 'shortcode_only' ); ?>><?php esc_html_e( 'Shortcode only (place [authorship_box] manually)', 'authorship-box' ); ?></option>
+			</select>
+			<span class="description">
+				<?php esc_html_e( 'Only affects where the box auto-appears; the "Author Box Display" setting above still controls whether it shows at all.', 'authorship-box' ); ?>
+			</span>
+		</p>
 		<?php
 	}
 
@@ -130,6 +159,15 @@ class ABX_Post_Metabox {
 				update_post_meta( $post_id, ABX_Resolver::OVERRIDE_META_KEY, $mode );
 			} else {
 				delete_post_meta( $post_id, ABX_Resolver::OVERRIDE_META_KEY );
+			}
+		}
+
+		if ( isset( $_POST['abx_position_override'] ) ) {
+			$position = sanitize_text_field( wp_unslash( $_POST['abx_position_override'] ) );
+			if ( in_array( $position, ABX_Resolver::POSITIONS, true ) ) {
+				update_post_meta( $post_id, ABX_Resolver::POSITION_META_KEY, $position );
+			} else {
+				delete_post_meta( $post_id, ABX_Resolver::POSITION_META_KEY );
 			}
 		}
 	}

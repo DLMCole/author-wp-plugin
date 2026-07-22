@@ -12,6 +12,9 @@ class ABX_Resolver {
 
 	const OVERRIDE_META_KEY = '_abx_override_mode';
 	const AUTHOR_META_KEY   = '_abx_author_id';
+	const POSITION_META_KEY = '_abx_position_override';
+
+	const POSITIONS = array( 'before_content', 'after_content', 'shortcode_only' );
 
 	private static $settings = null;
 
@@ -62,6 +65,25 @@ class ABX_Resolver {
 	public static function get_assigned_author_id( $post_id ) {
 		$author_id = (int) get_post_meta( $post_id, self::AUTHOR_META_KEY, true );
 		return ( $author_id && ABX_AUTHOR_CPT === get_post_type( $author_id ) ) ? $author_id : 0;
+	}
+
+	public static function get_position_override( $post_id ) {
+		$value = get_post_meta( $post_id, self::POSITION_META_KEY, true );
+		return in_array( $value, self::POSITIONS, true ) ? $value : 'default';
+	}
+
+	/**
+	 * Where the box should auto-inject for this post: 'before_content',
+	 * 'after_content', or 'shortcode_only' (meaning don't auto-inject at
+	 * all — it only shows via [authorship_box] or abx_the_author_box()).
+	 */
+	public static function get_effective_position( $post_id ) {
+		$override = self::get_position_override( $post_id );
+		if ( 'default' !== $override ) {
+			return $override;
+		}
+
+		return self::get_settings()['box_position'];
 	}
 
 	/**
